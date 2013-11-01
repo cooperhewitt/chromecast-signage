@@ -1,2 +1,2 @@
-do-relay:
-	node ./relay/server.js
+do-broker:
+	node ./broker/server.js

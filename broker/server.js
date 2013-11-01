@@ -53,6 +53,8 @@ io.sockets.on('connection', function (socket){
 
 	socket.on('displays', function (data){
 
+	    console.log(data);
+
 		var action = data['action'];
 
 		if (action == 'get_details'){
@@ -68,11 +70,13 @@ io.sockets.on('connection', function (socket){
 
 			var display = data['display'];
 			var msg = data['message'];
+			var msg_id = data['message_id'];
+
 			console.log("SEND " + msg + " TO " + display);
 
 			var callback = function(display){
-			        broadcast('pew pew', {'message': msg});
-				socket.emit('displays', {'action': 'sent_message', 'display': display});
+			    broadcast('pew pew', {'message': msg, 'message_id': msg_id});
+			    broadcast('displays', {'action': 'sent_message', 'display': display, 'message_id': msg_id});
 			};
 	
 			callback(display);
@@ -82,6 +86,7 @@ io.sockets.on('connection', function (socket){
 
 			var screens = screens_get_screens();
 
+			var msg_id = data['message_id'];
 			var display = data['display'];
 			var screen = data['screen'];
 
@@ -91,15 +96,15 @@ io.sockets.on('connection', function (socket){
 
 			var callback = function(display){
 
-			        broadcast('pew pew pew', {'message': url});
-				socket.emit('displays', {'action': 'sent_screen', 'display': display});
+			    broadcast('pew pew pew', {'message': url, 'message_id': msg_id});
+			    broadcast('displays', {'action': 'sent_screen', 'display': display, 'message_id': msg_id});
 			};
 
 			callback(display);
 		}
 
 		else {
-			console.log(data);
+			console.log("Unexpected action: " + data['action']);
 		}
 	});
 
