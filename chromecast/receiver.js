@@ -51,6 +51,8 @@
 
 			var on_rcvd_message = function(evt) {
 
+			    console.log(evt);
+
 				var type = evt.message.type;
 				var body = evt.message.body;
 
@@ -64,11 +66,35 @@
 					set_status(body);
 				}
 
+				else if (type == 'object'){
+
+				    	var object_id = body;
+					var url = 'http://collection.cooperhewitt.org/objects/' + object_id;
+
+					// var req = 'http://collection.cooperhewitt.org/oembed/photo?url=' + url;
+					var req = 'http://www-2.collection.cooperhewitt.net/oembed/photo?url=' + url;
+
+					var on_success = function(rsp){
+					    var photo_url = rsp['url'];
+					    var photo_title = rsp['title'];
+
+					    set_url(photo_url);
+					    set_status(photo_title);
+					};
+
+					$.ajax({
+					    'url': req,
+					    'success': on_success
+					});
+				}
+
 				else if (type == 'wazzup'){
 
 				}
 
-				else {}
+				else {
+				    console.log("Unexpected type: " + type);
+				}
 			};
 
 			var receiver = new cast.receiver.Receiver(
