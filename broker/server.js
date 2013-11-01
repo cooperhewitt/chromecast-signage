@@ -75,7 +75,7 @@ io.sockets.on('connection', function (socket){
 			console.log("SEND " + msg + " TO " + display);
 
 			var callback = function(display){
-			    broadcast('pew pew', {'message': msg, 'message_id': msg_id});
+			    broadcast('sender', {'action': 'message', 'message': msg, 'message_id': msg_id});
 			    broadcast('displays', {'action': 'sent_message', 'display': display, 'message_id': msg_id});
 			};
 	
@@ -96,7 +96,7 @@ io.sockets.on('connection', function (socket){
 
 			var callback = function(display){
 
-			    broadcast('pew pew pew', {'message': url, 'message_id': msg_id});
+			    broadcast('sender', {'action': 'url', 'message': url, 'message_id': msg_id});
 			    broadcast('displays', {'action': 'sent_screen', 'display': display, 'message_id': msg_id});
 			};
 
