@@ -1,5 +1,6 @@
 var socket;
 
+var cast_receivers = [];
 var cast_api;
 var cv_activity;
 
@@ -35,6 +36,10 @@ function sender_init(){
 	
 	    var body = data['message'];
 	    send_message_to_cc({'type': 'url', 'body': body});
+	}
+
+	else if (action == 'displays'){
+
 	}
 
 	else {
@@ -73,10 +78,17 @@ initialize_cast_api = function() {
 };
 
 on_receiver_list = function(receivers) {
+
+    cast_receivers = [];
+
     if(receivers.length == 0) {
 	return;
     }
+
     for (var i=0;i<receivers.length;i++) {
+
+	cast_receivers.push(receivers[i]);
+
 	console.log(receivers[i]);
 	console.log("status...");
 	console.log(cast.ActivityStatus(cast_app_id));
@@ -84,6 +96,8 @@ on_receiver_list = function(receivers) {
 	launch_request.parameters = '';
 	cast_api.launch(launch_request, on_launch);
     }
+
+    console.log(cast_receivers);
 };
 
 on_launch = function(activity) {
