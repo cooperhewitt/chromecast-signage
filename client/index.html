@@ -21,7 +21,9 @@ font-weight: 700;
 
 	  </style>
 	  
-	  <script text="type/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+	  <script text="type/javascript" src="uuid.js"></script>
+	  <script text="type/javascript" src="jquery-2.0.3.min.js"></script>
+
 	  <!-- https://github.com/LearnBoost/Socket.IO/wiki/How-do-I-serve-the-client -->
 	  <script src="http://localhost:9999/socket.io/socket.io.js"></script>
 
@@ -81,6 +83,15 @@ font-weight: 700;
 			}
 		});
 
+		var emit = function(ctx, msg){
+			var uuid = generate_uuid();
+	    		msg['message_id'] = uuid;
+		    	console.log(msg);
+
+			socket.emit(ctx, msg);
+			return uuid;
+		};
+
 		var display_feedback = function(display, msg){
 			var feedback = $("#display-feedback-" + display);
 			// TO DO: htmlspecialchars
@@ -88,7 +99,7 @@ font-weight: 700;
 		};
 
 		var setup_displays = function(){
-			socket.emit('displays', { 'action': 'get_details' });
+			var msg_id = emit('displays', { 'action': 'get_details' });
 		};
 
 	    	var list_displays = function(details){
@@ -110,7 +121,7 @@ font-weight: 700;
 		
 				display_feedback(display, "send " + url + " to " + display);
 
-				socket.emit('displays', {'action': 'send_screen', 'display': display, 'screen': url });
+				var msg_id = emit('displays', {'action': 'send_screen', 'display': display, 'screen': url });
 				btn.attr("disabled", "disabled");
 			});
 
@@ -127,7 +138,7 @@ font-weight: 700;
 
 				display_feedback(display, "send '" + msg + "' to " + display);
 
-				socket.emit('displays', {'action': 'send_message', 'display': display, 'message': msg });
+				var msg_id = emit('displays', {'action': 'send_message', 'display': display, 'message': msg });
 				btn.attr("disabled", "disabled");
 			});
 

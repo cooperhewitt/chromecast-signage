@@ -12,7 +12,7 @@
 
 	  <script src="globals.js"></script>
 
-	  <script text="type/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+	  <script text="type/javascript" src="jquery-2.0.3.min.js"></script>
 	  <!-- https://github.com/LearnBoost/Socket.IO/wiki/How-do-I-serve-the-client -->
 	  <script src="http://localhost:9999/socket.io/socket.io.js"></script>
 
@@ -28,8 +28,6 @@
 	    catch (e){
 		console.log(e);
 	    }
-
-	    console.log(socket);
 
 	    if (socket){
 
@@ -114,6 +112,7 @@
 		};
 
 		send_message_to_cc = function(msg){
+
 			cast_api.sendMessage(
 				cv_activity.activityId,
 				"e2e",
