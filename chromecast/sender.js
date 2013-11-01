@@ -18,18 +18,31 @@ function sender_init(){
 
     socket.on('sender', function(data){
 
-	var dt = new Date();
-	var time = dt.getHours() + ':' + dt.getMinutes() + ':' + dt.getSeconds();
+	console.log(data);
+	var action = data['action'];
+
+	// TO DO: reconcile 'actions' and 'types'
+
+	if (action == 'message'){
+	    var dt = new Date();
+	    var time = dt.getHours() + ':' + dt.getMinutes() + ':' + dt.getSeconds();
 	
-	var body = data['message'] + ' ' + time;
-	send_message_to_cc({'type': 'message', 'body': body});
-    });
-    
-    socket.on('pew pew pew', function(data){
+	    var body = data['message'] + ' ' + time;
+	    send_message_to_cc({'type': 'message', 'body': body});
+	}
+
+	else if (action == 'url'){
 	
-	var body = data['message'];
-	send_message_to_cc({'type': 'url', 'body': body});
+	    var body = data['message'];
+	    send_message_to_cc({'type': 'url', 'body': body});
+	}
+
+	else {
+	    console.log("Unexpected action: " + action);
+	}
+
     });
+
 }
     
 var msg_rcvd_callback=function(data){
@@ -98,6 +111,8 @@ send_message_to_cc = function(msg){
 	msg,
 	on_msg_rcvd_by_cc
     );
+
+    
 };
 
 on_msg_rcvd_by_cc = function(status_msg){
@@ -105,7 +120,7 @@ on_msg_rcvd_by_cc = function(status_msg){
     if (status_msg){
 	console.log(status_msg);
     }
-    }
+}
 
 function sendme(){
     
