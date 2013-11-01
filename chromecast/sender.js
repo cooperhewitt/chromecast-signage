@@ -17,6 +17,10 @@ function sender_init(){
 	return;
     }
 
+    socket.on('relay', function(data){
+	console.log(data);
+    });
+    
     socket.on('sender', function(data){
 
 	console.log(data);

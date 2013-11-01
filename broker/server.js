@@ -51,6 +51,21 @@ io.sockets.on('connection', function (socket){
 		}
 	};
 
+    // What it says on the tin. Not sure if there's a way to do this
+    // from the client libraries or what... (20131101/straup)
+
+    	socket.on('relay', function (data){
+
+	    ctx = 'relay';
+
+	    if (data['context']){
+		ctx = data['context'];
+		delete data['context'];
+	    }
+
+	    broadcast(ctx, data);
+	});
+
 	socket.on('displays', function (data){
 
 	    console.log(data);
