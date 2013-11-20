@@ -98,7 +98,7 @@
 			};
 
 			var receiver = new cast.receiver.Receiver(
-			    chromecast_app_id,
+			    chromecast_appid,
 				["e2e"],
 			    "",
 			    5);
