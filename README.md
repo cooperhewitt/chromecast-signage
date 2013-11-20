@@ -53,6 +53,23 @@ right?
 Once it appears add the hostname (collection.cooperhewitt.org) to the
 list of "Cast SDK additional domains".
 
+## Make it go
+
+### broker/server.js
+
+The first thing you'll need to do is start the broker. You can do this manually by typing:
+
+	$> node broker/server.js
+
+Or using the handy `Makefile` shortcut:
+
+	$> make do-broker
+
+This will spin up a dumb little socket.io server to relay events between the various devices.
+
+### chromecast/globals.js
+
+Make sure you copy the `chromecast/globals.js.example` file to `chromecast/globals.js` and update it with the relevant configs (like you Chromecast app ID)
 
 See also
 --
