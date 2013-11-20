@@ -36,6 +36,10 @@
 			}
 			var set_weather = function(){
 
+			    // figure out why this isn't working later (20131120/straup)
+
+			    return;
+
 				$(document).ready(function(){
 					$.ajax({
 					  url : "http://api.wunderground.com/api/' + wundeground_apikey + '/geolookup/conditions/q/NY/New_York.json",
