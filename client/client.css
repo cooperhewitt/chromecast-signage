@@ -1,0 +1,15 @@
+
+.screen {
+	border: solid thin;
+	margin-bottom: 2em;
+	padding: 1em;
+}
+
+.screen-feedback {
+color: red;
+padding-top:1em;
+}
+
+.send_stuff {
+font-weight: 700;
+}
