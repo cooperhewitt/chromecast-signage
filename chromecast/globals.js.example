@@ -1,0 +1,5 @@
+var wunderground_apikey='ff281d80eaa8a34c';
+
+var chromecast_appid='ADC71F5A-D474-4FA4-81A8-D40F3919DA03_2';
+
+var socketio_server='http://localhost:9999';
