@@ -2,187 +2,25 @@
 	<head>
 	  <title>Client</title>
 
-	  <style type="text/css">
+	  <link rel="stylesheet" type="text/css" href="client.css" />
 
-.screen {
-	border: solid thin;
-	margin-bottom: 2em;
-	padding: 1em;
-}
-
-.screen-feedback {
-color: red;
-padding-top:1em;
-}
-
-.send_stuff {
-font-weight: 700;
-}
-
-	  </style>
-	  
 	  <script text="type/javascript" src="uuid.js"></script>
+	  <script text="type/javascript" src="htmlspecialchars.js"></script>
 	  <script text="type/javascript" src="jquery-2.0.3.min.js"></script>
 
 	  <!-- https://github.com/LearnBoost/Socket.IO/wiki/How-do-I-serve-the-client -->
 	  <script src="http://localhost:9999/socket.io/socket.io.js"></script>
 
-	  <script>
+	  <script src="client.js"></script>
 
-	    /*
-	       'displays' are monitors or chromecast devices
-	       'screens' are things that might be cast to a display
-	    */
-
-	    var socket;
-	    var screens;
-	    var displays;
-
-	    $(document).ready(function(){
-
-		try {
-	    		socket = io.connect('http://localhost:9999');
-		}
-
-		catch (e){
-			$("#status").html("Oh no! Could not connect to signage controller, because " + e);
-			return;
-		}
-
-	    	socket.on('displays', function(data){
-
-			if (data['action'] == 'send_details'){
-				list_displays(data['displays']);
-			}
-
-			else if (data['action'] == 'sent_message'){
-
-				var display = data['display'];
-
-				var btn = $("#send-message-" + display);
-				btn.removeAttr("disabled");
-
-				var input = $("#display-message-" + display);
-				input.val("");
-
-				display_feedback(display, "Yay, I sent a message to " + display + "!");
-			}
-
-			else if (data['action'] == 'sent_screen'){
-
-				var display = data['display'];
-
-				var btn = $("#send-screen-" + display);
-				btn.removeAttr("disabled");
-
-				display_feedback(display, "Yay, I updated the screen on " + display + "!");
-			}
-
-			else {
-				console.log(data);
-			}
-		});
-
-		var emit = function(ctx, msg){
-			var uuid = generate_uuid();
-	    		msg['message_id'] = uuid;
-		    	console.log(msg);
-
-			socket.emit(ctx, msg);
-			return uuid;
-		};
-
-		var display_feedback = function(display, msg){
-			var feedback = $("#display-feedback-" + display);
-			// TO DO: htmlspecialchars
-			feedback.html(msg);
-		};
-
-		var setup_displays = function(){
-			var msg_id = emit('displays', { 'action': 'get_details' });
-		};
-
-	    	var list_displays = function(details){
-
-			var screens = details['screens'];
-	    		var displays = details['displays'];
-	    		var showing = details['showing'];
-
-			for (i in displays){
-				var display = displays[i];
-		    		draw_display_control(display, showing[display], screens);
-	    		}
-
-			$("button.send_screen").click(function(){
-				var btn = $(this);
-    				var display = btn.attr("data-display-id");
-				var url = $("#display-screen-" + display);
-	    			url = url.val();
-		
-				display_feedback(display, "send " + url + " to " + display);
-
-				var msg_id = emit('displays', {'action': 'send_screen', 'display': display, 'screen': url });
-				btn.attr("disabled", "disabled");
-			});
-
-			$("button.send_message").click(function(){
-				var btn = $(this);
-	    			var display = btn.attr("data-display-id");
-				var msg = $("#display-message-" + display);
-    				msg = msg.val();
-		
-    				if (msg == ''){
-					alert('YAHOO SAYS NO');
-					return;
-				}
-
-				display_feedback(display, "send '" + msg + "' to " + display);
-
-				var msg_id = emit('displays', {'action': 'send_message', 'display': display, 'message': msg });
-				btn.attr("disabled", "disabled");
-			});
-
-	    	};
-
-		var draw_display_control = function(display, showing, screens){
-
-			var cntl = '<div id="display-' + display + '" class="display">';
-	      		cntl += '<h3>' + display + '</h3>';
-
-	      		cntl += '<div>';
-			cntl += '<select id="display-screen-' + display + '">';
-
-			for (id in screens){
-				cntl += '<option value="' + id + '">' + id + '</option>';
-			}
-
-			cntl += '</select>';
-	      		cntl += '<button class="send_screen" id="send-screen-' + display + '" data-display-id="' + display + '">SEND SCREEN</button>';
-	      		cntl += '</div>';
-
-	      		cntl += '<div>';
-			cntl += '<input type="text" id="display-message-' + display + '" />';
-	      		cntl += '<button class="send_message" id="send-message-' + display + '" data-display-id="' + display + '">SEND MESSAGE</button>';
-	      		cntl += '</div>';
-
-	      		cntl += '<div class="display-feedback" id="display-feedback-' + display + '"></div>';
-
-	      		cntl += '</div>';
-	
-			$("#displays").append($(cntl));
-		};
-
-		setup_displays();
-
-	    });
-
+	  <script type="text/javascript">
+	    $(document).ready(client_init);
 	  </script>
 
 	</head>
 
 	<body>
 		<div id="status"></div>
-		<div id="displays"></div>
-		
+		<div id="displays"></div>		
 	</body>
 </html>

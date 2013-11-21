@@ -1,58 +1,68 @@
-var io = require('socket.io').listen(9999);
-
 /*
          'displays' are monitors or chromecast devices
 	 'screens' are things that might be cast to a display
 */
 
+// See these functions? They're hard-coding a bunch of fixed lists. That's
+// not a feature. Rather they are meant to wrap calls to the chromecast API via
+// the 'server' component which knows about all the displays it can see and
+// can do some introspection.
+
+// A list of possible screens to send and their named labels
+
+var screens_get_screens = function(){
+    
+    return {
+	"museum hours": "http://collection.cooperhewitt.org/about/",
+	"upcoming events": "http://www.aaronland.info/",
+	"subway schedule": "http://news.bbc.co.uk",
+    };
+};
+
+// What screen is currently being shown on a given display?
+
+var display_get_screen = function(display){
+    return "foo";	    
+};
+
+// The list of available displays
+
+var displays_get_displays = function(){
+    
+    return [
+	    'mauipinwale'
+	    ];
+};
+
+var displays_get_details = function(callback){
+    
+    var details = {};
+    
+    details['screens'] = screens_get_screens();
+    details['displays'] = displays_get_displays();
+    details['showing'] = {}
+    
+    for (var i in details['displays']){
+	
+	var display = details['displays'][i];
+	var screen = display_get_screen(display);
+	
+	details['showing'][display] = screen;
+    }
+    
+    if (callback){
+	callback(details);
+    }
+};
+
+// Okay. The actual socket.io broker daemon thingy.
+
+var io = require('socket.io').listen(9999);
+
 io.sockets.on('connection', function (socket){
 
-	var screens_get_screens = function(){
-
-		return {
-		    "museum hours": "http://collection.cooperhewitt.org/about/",
-		    "upcoming events": "http://www.aaronland.info/",
-		    "subway schedule": "http://news.bbc.co.uk",
-		};
-	};
-
-    	// TO DO: make me not shit...
-
-	var display_get_screen = function(display){
-		return "foo";	    
-	};
-
-	var displays_get_displays = function(){
-
-		return [
-			'dropmire',
-			'mauipinwale'
-		];
-	};
-
-	var displays_get_details = function(callback){
-
-		var details = {};
-
-		details['screens'] = screens_get_screens();
-		details['displays'] = displays_get_displays();
-		details['showing'] = {}
-	    
-		for (var i in details['displays']){
-
-			var display = details['displays'][i];
-			var screen = display_get_screen(display);
-
-			details['showing'][display] = screen;
-		}
-
-		if (callback){
-			callback(details);
-		}
-	};
-
-    // What it says on the tin. Not sure if there's a way to do this
-    // from the client libraries or what... (20131101/straup)
+	// What it says on the tin. Not sure if there's a way to do this
+	// from the client libraries or what... (20131101/straup)
 
     	socket.on('relay', function (data){
 
@@ -66,9 +76,11 @@ io.sockets.on('connection', function (socket){
 	    broadcast(ctx, data);
 	});
 
+	// displays
+
 	socket.on('displays', function (data){
 
-	    console.log(data);
+		// console.log(data);
 
 		var action = data['action'];
 
@@ -86,8 +98,6 @@ io.sockets.on('connection', function (socket){
 			var display = data['display'];
 			var msg = data['message'];
 			var msg_id = data['message_id'];
-
-			console.log("SEND " + msg + " TO " + display);
 
 			var callback = function(display){
 			    broadcast('sender', {'action': 'message', 'message': msg, 'message_id': msg_id});
@@ -122,6 +132,8 @@ io.sockets.on('connection', function (socket){
 			console.log("Unexpected action: " + data['action']);
 		}
 	});
+	
+	// screens
 
 	socket.on('screens', function (data){
 
