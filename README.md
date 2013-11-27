@@ -1,6 +1,18 @@
 chromecast-signage
 --
 
+Since the late 1990s museums have been fighting a pointless war against the
+consumerization of technology. By the time the Playstation 2 was released in
+2000, every science museum’s exhibition kiosk game looked, felt, and was
+terribly out dated. The visitors had better hardware in their lounge rooms than
+museums could ever hope to have. By the time the first iPhone hit the shelves in
+2007, visitors have also had better hardware in their pockets.
+
+But what if that consumer hardware, every dropping in price, could be adapted
+and quickly integrated into the museum itself?
+
+– ["C" is for Chromecast: hacking digital signage.]()
+
 ## Who's on first
 
 ## Chromecast device
@@ -120,7 +132,9 @@ Chromecast app ID).
 
 ### sender/sender.html
 
-This is the page you load in Chrome. It can 
+This is the page you load in Chrome. It will trigger the "receiver" to be loaded
+on one or more "devices". It also has its own simple form-based interface for
+sending specific URLs or blobs of text to a display.
 
 ### receiver/receiver.html
 
@@ -144,15 +158,57 @@ this:
 	RewriteEngine	On
 	RewriteRule	^chrome/?$	receiver/receiver.html	[L]		
 
-The other important thing to remember is the "receiver" needs to be on the
-Internet. Or rather if you're going to horse around with DNS (for example in
-such as way as to make it seem like an actual domain name points to your laptop
-for testing purposes) then you need to make sure that the Chromecast "device"
-sees those changes too.
+### Addressability
+
+The other important thing to remember is that the "sender" and the "receiver"
+need to be on the Internet. Or rather if you're going to horse around with DNS
+for example in such as way as to make it seem like an actual domain name points
+to your laptop for testing purposes.
 
 This may seem obvious except for the part where I spent a couple hours thrashing
-around before I realized what was going on.
+around before I realized that even if I could trick my browser into thinking the
+"sender" was being served off my latop there was no (easy) way to trick the
+"device" in to doing the same. The "device" kept looking for the "receiver" out
+there on the Internet where it didn't exist yet because I was trying to serve it
+off my latop.
 
+The point being: It's all about domain names and URLs and the Chromecast device
+assumes everything is live on an Internet it can talk to.
+
+### Addressability (and MAMP and /etc/hosts)
+
+For testing purposes we set up [MAMP](http://www.mamp.info/en/index.html) to
+serve the "sender" application. The following is provided as-is as a kind of
+reference implementation rather than something that is guaranteed to work on
+your machine.
+
+Add something like this to `/Applications/MAMP/conf/apache/extra/httpd-vhosts.conf`
+
+	<VirtualHost *:80>
+	    ServerAdmin webmaster@dummy-host.example.com
+	    DocumentRoot "/Applications/MAMP/htdocs/receiver"
+	    ServerName collection.cooperhewitt.org
+	    # ErrorLog "logs/dummy-host.example.com-error_log"
+	    # CustomLog "logs/dummy-host.example.com-access_log" common
+	</VirtualHost>
+
+Note that I have symlink-ed the `receiver` directory (in this repo)
+in to `/Applications/MAMP/htdocs`.
+
+Also note the `ServerName` directive which is
+collection.cooperhewitt.org. As of this writing we're not actually
+running any of this stuff on the production site but it's the host/URL
+we got whitelisted so that means we also need to update...
+
+To direct traffic to `collection.cooperhewitt.org` back to the local
+machine (aka MAMP) I edited my `/etc/hosts` file as follows:
+
+	127.0.0.1       collection.cooperhewitt.org
+
+At this point it's also worth flushing your local DNS cache, like
+this:
+
+	$> dscacheutil -flushcache
 
 See also
 --
