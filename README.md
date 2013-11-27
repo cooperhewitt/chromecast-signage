@@ -1,6 +1,63 @@
 chromecast-signage
 --
 
+## Who's on first
+
+## Chromecast device
+
+Sometimes called the "dongle". The plastic thing that comes in a box and which
+you plug in to your monitor or display.
+
+## Chromecast application
+
+The [Chromecast setup application](https://cast.google.com/chromecast/setup)
+used to pair the Chromecast device with your Wifi network.
+
+## Chrome and Chromecast extension
+
+The [Chrome web browser](https://www.google.com/intl/en/chrome/browser/) with the [Chromecast extension](https://chrome.google.com/webstore/detail/google-cast/boadgeojelhgndaghljhdicfkmllpafd?hl=en) installed.
+
+## Sender
+
+The "sender" is a webpage that you load in Google Chrome and which can cause a
+custom web page/application (often called the "receiver", but more on that
+below) to be loaded by the Chromecast device.
+
+## Receiver
+
+This is a living breathing URL (or at least something whose DNS can be resolved
+by the Chromecast device) that will be loaded by a Chromecast device.
+
+Not just any URL can be loaded though. You need to have the URL in question
+[whitelisted by Google](https://developers.google.com/cast/whitelisting). Once
+the URL has been approved you will be issued an `application ID`. That ID needs
+to be included in a little bit of Javascript in both the "sender" and the
+"receiver".
+
+Additionally, you need to add the _domain_ for the whitelisted URL to a separate
+whitelist in the Chromecast extension, but more on that below.
+
+## Broker
+
+This is a very simple [socket.io](http://socket.io) server that is designed to
+relay messages between the various pieces.
+
+## Client
+
+This is a plain old webpage that can run in any web browser that retrieves
+informations about, and relays commands to, one or more displays via the
+"broker".
+
+Specifically the "broker" _brokers_ traffic between one or more "client"
+applications and a single "sender" which itself controls one or more
+"receivers".
+
+## What does that look like in practice?
+
+It looks like this:
+
+![model](https://github.com/cooperhewitt/chromecast-signage/blob/master/model/model.png?raw=true)
+
 ## Setup
 
 ### MAMP
