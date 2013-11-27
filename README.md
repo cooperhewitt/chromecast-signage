@@ -15,7 +15,7 @@ and quickly integrated into the museum itself?
 
 ## What does that look like in practice?
 
-It looks like this:
+Something like this:
 
 ![model](https://github.com/cooperhewitt/chromecast-signage/blob/master/model/model.png?raw=true)
 
@@ -160,7 +160,7 @@ this:
 	RewriteEngine	On
 	RewriteRule	^chrome/?$	receiver/receiver.html	[L]		
 
-### Addressability
+## Addressability
 
 The other important thing to remember is that the "sender" and the "receiver"
 need to be on the Internet. Or rather if you're going to horse around with DNS
