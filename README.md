@@ -58,39 +58,27 @@ It looks like this:
 
 ![model](https://github.com/cooperhewitt/chromecast-signage/blob/master/model/model.png?raw=true)
 
+The point being:
+
+* The "sender" application has super powers. It also needs to run on a machine
+  with a running web browser and, more specifically, that web browser is the one
+  with the super powers since it can send anything to any of the "displays". So
+  that pretty much means a dedicated machine that sits quietly in a locked room.
+
+* The "sender" is really just a plain vanilla webpage with some magic Google
+  Javascript but that's it. There's no more way to talk _at_ this webpage
+  running in a browser than there is any other webpage running in a browser. The
+  webpage itself needs to connect to a bridging server or a... broker which will
+  relay communications between the webpage and other applications.
+
+* The "broker" then becomes where all of your control logic and restrictions
+  (authentication, authorization, etc.) lives.
+
+* It's not clear whether it is possible for a "receiver" to relay messages back
+  to the "sender" because a) it's not possible or b) we just didn't figure out
+  how to do this.
+
 ## Setup
-
-### MAMP
-
-Add something like this to `/Applications/MAMP/conf/apache/extra/httpd-vhosts.conf`
-
-	<VirtualHost *:80>
-	    ServerAdmin webmaster@dummy-host.example.com
-	    DocumentRoot "/Applications/MAMP/htdocs/chromecast"
-	    ServerName collection.cooperhewitt.org
-	    # ErrorLog "logs/dummy-host.example.com-error_log"
-	    # CustomLog "logs/dummy-host.example.com-access_log" common
-	</VirtualHost>
-
-Note that I have symlink-ed the `chromecast` directory (in this repo)
-in to `/Applications/MAMP/htdocs`.
-
-Also note the `ServerName` directive which is
-collection.cooperhewitt.org. As of this writing we're not actually
-running any of this stuff on the production site but it's the host/URL
-we got whitelisted so that means we also need to update...
-
-### /etc/hosts
-
-To direct traffic to `collection.cooperhewitt.org` back to the local
-machine (aka MAMP)
-
-	127.0.0.1       collection.cooperhewitt.org
-
-At this point it's also worth flushing your local DNS cache, like
-this:
-
-	$> dscacheutil -flushcache
 
 ### chrome-extension
 
@@ -124,9 +112,47 @@ Or using the handy `Makefile` shortcut:
 
 This will spin up a dumb little socket.io server to relay events between the various devices.
 
-### chromecast/globals.js
+### shared/globals.js
 
-Make sure you copy the `chromecast/globals.js.example` file to `chromecast/globals.js` and update it with the relevant configs (like you Chromecast app ID)
+Make sure you copy the `shared/globals.js.example` file to `sender/globals.js`
+and `receiver/globals.js` and update them with the relevant configs (like you
+Chromecast app ID).
+
+### sender/sender.html
+
+This is the page you load in Chrome. It can 
+
+### receiver/receiver.html
+
+This is the page that will be loaded by Chromecast device (which will have told
+to load it by the "sender" (which probably is saying something like "Hey, we
+have the same application ID, so why don't you load the URL that it's associated
+with!"))
+
+Here's the important bit: It's not really called "receiver" or
+"receiver.html". It's called whatever the URL you whitelisted with Google and
+there is no URL normalization.
+
+For example if you told Google to whitelist `my-website.example.com/chrome` then
+you need to make sure that your webserver doesn't do something clever like
+automatically add a trailing slash (as in `my-website.example.com/chrome/`) to
+that URL when something tries to load this. Apache does this.
+
+If you're using Apache then you might consider adding a [ModRewrite rule]() like
+this:
+
+	RewriteEngine	On
+	RewriteRule	^chrome/?$	receiver/receiver.html	[L]		
+
+The other important thing to remember is the "receiver" needs to be on the
+Internet. Or rather if you're going to horse around with DNS (for example in
+such as way as to make it seem like an actual domain name points to your laptop
+for testing purposes) then you need to make sure that the Chromecast "device"
+sees those changes too.
+
+This may seem obvious except for the part where I spent a couple hours thrashing
+around before I realized what was going on.
+
 
 See also
 --
