@@ -8,7 +8,7 @@ terribly out dated. The visitors had better hardware in their lounge rooms than
 museums could ever hope to have. By the time the first iPhone hit the shelves in
 2007, visitors have also had better hardware in their pockets.
 
-But what if that consumer hardware, every dropping in price, could be adapted
+But what if that consumer hardware, ever dropping in price, could be adapted
 and quickly integrated into the museum itself?
 
 – ["C" is for Chromecast: hacking digital signage.]()
