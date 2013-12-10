@@ -11,7 +11,7 @@ museums could ever hope to have. By the time the first iPhone hit the shelves in
 But what if that consumer hardware, ever dropping in price, could be adapted
 and quickly integrated into the museum itself?
 
-– ["C" is for Chromecast: hacking digital signage.]()
+– ["C" is for Chromecast: hacking digital signage.](http://labs.cooperhewitt.org/2013/c-is-for-chromecast-hacking-digital-signage/)
 
 ## What does that look like in practice?
 
@@ -214,6 +214,9 @@ this:
 
 See also
 --
+
+* ["C" is for Chromecast: hacking digital signage.](http://labs.cooperhewitt.org/2013/c-is-for-chromecast-hacking-digital-signage/)
+
 
 * https://developers.google.com/cast/reference/
 
