@@ -1,0 +1,134 @@
+Setting up the Cast SDK in Eclipse
+
+To build one of the sample Android projects, you need to first set up your
+workspace for Google Cast development. The following steps will take you
+through setup and try to answer any questions relating to common errors and
+mistakes in the process.
+
+A. Before you Start
+B. Support Library Setup
+C. Cast SDK Setup
+D. Common Errors
+
+***
+
+A. Before You Start:
+
+1. Download the Cast SDK (developers.google.com/cast/downloads) and extract
+   it to an easily findable location.
+
+2. Install the Android Support Libraries through the Android SDK Manager
+   (http://developer.android.com/tools/support-library/setup.html).
+   
+***
+
+B. Support Library Setup:
+
+To develop for Google Cast, you need both the Cast SDK and three Android
+Support Libraries, listed below. All Android Support Libraries can be found
+at (SDK install location)/extras/android/support/.
+
+1. android-support-v4
+2. android-support-v7-appcompat
+3. android-support-v7-mediarouter
+
+However, since v4 is bundled with v7-appcompat in the Android Support
+Libraries, you will only need to install the two v7 support libraries listed.
+See the below link for detailed step-by-step instructions for importing the
+two v7 libraries into your workspace.
+
+http://developer.android.com/tools/support-library/setup.html#libs-with-res
+
+After creating both support libraries as projects in your workspace:
+
+1. Right click on v7-mediarouter and select Properties.
+2. Select Android, and in the Libraries list, add v7-appcompat.
+
+If you still have build errors after the above steps, see the Common Errors
+section at the end of this document.
+
+***
+
+C. Cast SDK Setup
+
+You can either add the Cast SDK as a library project in your workspace, or add
+the GoogleCastSdkAndroid-x.x.x.jar directly to the project you're building. The
+former is recommended if you have multiple Cast-related projects in your
+workspace.
+
+As a library project: Follow the Support Library setup instructions linked
+above for your downloaded and extracted SDK.
+
+As an included library: 
+
+1. Copy the /libs folder from your downloaded SDK to your Cast-related project.
+   Make sure the folder is named libs, and not "lib" or something else similar.
+
+2. You do not need to add the .jar to your build path if you name the folder
+   "libs". Your project should now compile without errors.
+
+***
+
+D. Common Errors
+
+1. v7-appcompat: Unable to resolve target 'android-16'.
+
+  This is the result of android-support-v7-appcompat being initialized to 
+  depend on the Android 4.1.2 (API 16) libraries, which you may not have
+  installed. You DO NOT NEED to install API 16 if you don't need it. To 
+  fix this error:
+
+  1. Right click on the v7-appcompat project and select Properties.
+  
+  2. Select Android and check the Project Build Target. If the current target
+     is listed as 17 or above, it's lying. Select a different target, select
+     "Apply", then re-select the desired target (> API 17) and hit "Apply"
+     again.
+     
+  3. The errors should disappear. If you've selected API 17 or above and
+     "Unable to resolve target 'android-16'" errors persist, restart Eclipse.
+     
+2. v7-mediarouter: styles.xml won't recognize the parent class
+   'Widget.AppCompat.ActionButton'. 
+   
+  This error occurs when v7-mediarouter does not have v7-appcompat listed as
+  one of its required libraries, or v7-appcompat was not correctly configured.
+  Check the instructions for setting up Android Support Libraries again.
+
+3. v7-mediarouter: v17/mr_media_route_list_item.xml won't recognize paddingEnd
+   or paddingStart as valid properties.
+   
+  This error occurs when v7-mediarouter accidentally has its build target set
+  to an API version less than 17, perhaps as a result of installing API 16 to
+  deal with the "Unable to resolve target 'android-16'" error above. To fix
+  this error:
+
+   1. Right click on v7-appcompat and select Properties.
+   
+   2. Select Android and set the Project Build Target to an API version higher
+      than 17. 
+      
+   3. The project may not immediately refresh, even if you hit Apply; to force
+      it to refresh without restarting Eclipse, remove v7-appcompat from the
+      Libraries list and hit Apply. 
+      
+   4. Then re-add v7-appcompat to the Libraries list and hit Apply again. This
+      will re-build v7-mediarouter with the correct API target.
+      
+4. My Cast project won't recognize Cast-related classes/claims com.google.cast.
+   doesn't exist.
+   
+   This error results when the Cast SDK is incorrectly set up. Check the Cast
+   SDK Setup instructions in section B. again, and try the other method if
+   your current one doesn't work.
+   
+5. My Cast project builds but doesn't run with an "Unable to instantiate
+   activity ComponentInfo" bug.
+   
+   This error occurs as a result of previously given erroneous information. If
+   you've copied the Cast SDK jar into your project's /libs folder, you DO NOT
+   need to add the jar to your build path. Remove it from the build path and
+   the project should run as normal.
+
+
+
