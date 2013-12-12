@@ -30,7 +30,7 @@ function client_init(){
     var displays;
     
     try {
-	socket = io.connect('http://localhost:9999');
+	socket = io.connect(socketio_server);
     }
     
     catch (e){
