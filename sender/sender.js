@@ -4,8 +4,6 @@ var cast_receivers = [];
 var cast_api;
 var cv_activity;
 
-var cast_app_id = chromecast_appid;	// set in globals.js
-
 function sender_init(){
 
     try {
@@ -77,7 +75,7 @@ if (window.cast && window.cast.isAvailable){
 
 initialize_cast_api = function() {
     cast_api = new cast.Api();
-    cast_api.addReceiverListener(cast_app_id, on_receiver_list);
+    cast_api.addReceiverListener(config['chromecast_appid'], on_receiver_list);
 };
 
 on_receiver_list = function(receivers) {
@@ -94,8 +92,8 @@ on_receiver_list = function(receivers) {
 
 	console.log(receivers[i]);
 	console.log("status...");
-	console.log(cast.ActivityStatus(cast_app_id));
-	var launch_request = new cast.LaunchRequest(cast_app_id, receivers[i]);
+	console.log(cast.ActivityStatus(config['chromecast_appid']));
+	var launch_request = new cast.LaunchRequest(config['chromecast_appid'], receivers[i]);
 	launch_request.parameters = '';
 	cast_api.launch(launch_request, on_launch);
     }

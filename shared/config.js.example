@@ -1,0 +1,5 @@
+var config = {
+	'chromecast_appid': 'CONFIG_CHROMECAST_APPID',
+	'socketio_host': 'CONFIG_SOCKETIO_HOST',
+	'socketio_port': 'CONFIG_SOCKETIO_PORT'
+};

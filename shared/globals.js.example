@@ -1,9 +1,0 @@
-// As of this writing this bit doesn't seem to be working so you
-// can just ignore it. It's what it looks like though. An API key
-// so that your receiver application can periodically ask for the
-// weather and display it in the footer (20131127/straup)
-// var wunderground_apikey='';
-
-var chromecast_appid='';
-
-var socketio_server='http://localhost:9999';

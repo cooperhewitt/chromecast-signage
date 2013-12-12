@@ -28,9 +28,9 @@ function client_init(){
     var socket;
     var screens;
     var displays;
-    
+
     try {
-	socket = io.connect(socketio_server);
+	socket = io.connect(config['socketio_endpoint']);
     }
     
     catch (e){
