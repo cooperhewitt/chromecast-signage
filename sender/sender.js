@@ -29,8 +29,7 @@ function sender_init(){
 	// TO DO: reconcile 'actions' and 'types'
 
 	if (action == 'message'){
-	    var dt = new Date();
-	    var time = dt.getHours() + ':' + dt.getMinutes() + ':' + dt.getSeconds();
+	    var time = new Date().toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1"); // hh:mm:ss
 	
 	    var body = data['message'] + ' ' + time;
 	    send_message_to_cc({'type': 'message', 'body': body});
