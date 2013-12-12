@@ -29,8 +29,11 @@ function client_init(){
     var screens;
     var displays;
 
+    // TO DO: throw better errors
+
     try {
-	socket = io.connect(config['socketio_endpoint']);
+	var endpoint = 'http://' + config['socketio_host'] + ':' + config['socketio_port'];
+	socket = io.connect(endpoint);
     }
     
     catch (e){

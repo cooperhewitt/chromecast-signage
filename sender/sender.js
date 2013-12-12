@@ -6,8 +6,11 @@ var cv_activity;
 
 function sender_init(){
 
+    // TO DO: throw better errors
+
     try {
-	socket = io.connect(socketio_server);
+	var endpoint = 'http://' + config['socketio_host'] + ':' + config['socketio_port'];
+	socket = io.connect(endpoint);
     }
 
     catch (e){
