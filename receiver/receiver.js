@@ -25,7 +25,7 @@
 
 			var set_current = function(){
 				var dt = new Date();
-				var time = dt.getHours() + ':' + dt.getMinutes() + ':' + dt.getSeconds();
+				var time = new Date().toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1"); // hh:mm:ss
 
 				set_body('time', 'and the time is ' + time);
 			};
