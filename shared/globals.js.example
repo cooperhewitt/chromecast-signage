@@ -4,6 +4,6 @@
 // weather and display it in the footer (20131127/straup)
 // var wunderground_apikey='';
 
-var chromecast_appid=';
+var chromecast_appid='';
 
 var socketio_server='http://localhost:9999';
