@@ -116,7 +116,22 @@ list of "Cast SDK additional domains".
 
 ### Building your config file and Javascript dependencies
 
+The first thing to do is to configure the specifics of your setup. This is done
+using `make build` command (which is itself defined in the Makefile). The
+Makefile still needs a little bit of work but you should invoke it by passing in
+the relevant configurations. They are:
+
+* CHROMECAST_APPID – this is the unique app ID that you received from Google
+* SOCKETIO_HOST – this is the hostname for the (socket.io) broker
+* SOCKETIO_PORT - this is the port for the (socket.io) broker
+
+And then it's all invoked like this:
+
 	make build CHROMECAST_APPID=<your-app-id> SOCKETIO_HOST=localhost SOCKETIO_PORT=9999
+
+In addition to generating a new config file (`config.js`) the command will copy
+the other shared Javascript dependencies in to the `sender` and `receiver` and
+`client` folders. In the end it all looks like this:
 
 	cp ./shared/config.js.example ./shared/config.js
 	sed -e 's/CONFIG_CHROMECAST_APPID/your-app-id/' ./shared/config.js > ./shared/config.js.tmp && mv ./shared/config.js.tmp ./shared/config.js
@@ -131,9 +146,9 @@ list of "Cast SDK additional domains".
 	cp ./shared/config.js ./receiver/config.js
 	cp ./shared/jquery-2.0.3.min.js ./receiver/jquery-2.0.3.min.js
 
-### broker/server.js
+### The broker
 
-The first thing you'll need to do is start the broker. You can do this manually by typing:
+Next you'll need to do is start the broker. You can do this manually by typing:
 
 	$> node broker/server.js
 
@@ -142,12 +157,6 @@ Or using the handy `Makefile` shortcut:
 	$> make do-broker
 
 This will spin up a dumb little socket.io server to relay events between the various devices.
-
-### shared/globals.js
-
-Make sure you copy the `shared/globals.js.example` file to `sender/globals.js`
-and `receiver/globals.js` and update them with the relevant configs (like you
-Chromecast app ID).
 
 ### sender/sender.html
 
@@ -176,6 +185,10 @@ this:
 
 	RewriteEngine	On
 	RewriteRule	^chrome/?$	receiver/receiver.html	[L]		
+
+### client/client.html
+
+This is the simple tool that front-of-house staff would use to send messages.
 
 ## Addressability
 
@@ -233,7 +246,6 @@ See also
 --
 
 * ["C" is for Chromecast: hacking digital signage.](http://labs.cooperhewitt.org/2013/c-is-for-chromecast-hacking-digital-signage/)
-
 
 * https://developers.google.com/cast/reference/
 
