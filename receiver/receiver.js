@@ -73,10 +73,9 @@
 				else if (type == 'object'){
 
 				    	var object_id = body;
-					var url = 'http://collection.cooperhewitt.org/objects/' + object_id;
 
-					// var req = 'http://collection.cooperhewitt.org/oembed/photo?url=' + url;
-					var req = 'http://www-2.collection.cooperhewitt.net/oembed/photo?url=' + url;
+					var url = 'http://collection.cooperhewitt.org/objects/' + object_id;
+					var req = 'http://collection.cooperhewitt.org/oembed/photo?url=' + url;
 
 					var on_success = function(rsp){
 					    var photo_url = rsp['url'];

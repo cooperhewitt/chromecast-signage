@@ -8,13 +8,9 @@
 	  <script type="text/javascript" src="socket.io.js"></script>
 	  <script type="text/javascript" src="sender.js"></script>
 
-	  <script type="text/javascript">
-	    $(document).ready(sender_init);
-	  </script>
-
 </head>
 <body>
-	<h1>Sender</h1>
+	<h1>The Sender</h1>
 	<div id="ws_msg_rcpt_div"></div>
 
 	<form>
@@ -26,6 +22,10 @@
 	  <input type="text" id="msg" value="" />
 	  <button onclick="send_message(); return false;">SEND WORDS</button>
 	</form>
+
+	  <script type="text/javascript">
+	    $(document).ready(sender_init);
+	  </script>
 
 </body>
 <html>

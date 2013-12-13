@@ -114,6 +114,23 @@ list of "Cast SDK additional domains".
 
 ## Make it go
 
+### Building your config file and Javascript dependencies
+
+	make build CHROMECAST_APPID=<your-app-id> SOCKETIO_HOST=localhost SOCKETIO_PORT=9999
+
+	cp ./shared/config.js.example ./shared/config.js
+	sed -e 's/CONFIG_CHROMECAST_APPID/your-app-id/' ./shared/config.js > ./shared/config.js.tmp && mv ./shared/config.js.tmp ./shared/config.js
+	sed -e 's/CONFIG_SOCKETIO_HOST/localhost/' ./shared/config.js > ./shared/config.js.tmp && mv ./shared/config.js.tmp ./shared/config.js
+	sed -e 's/CONFIG_SOCKETIO_PORT/9999/' ./shared/config.js > ./shared/config.js.tmp && mv ./shared/config.js.tmp ./shared/config.js
+	cp ./shared/config.js ./client/config.js
+	cp ./shared/socket.io.js ./client/socket.io.js
+	cp ./shared/jquery-2.0.3.min.js ./client/jquery-2.0.3.min.js
+	cp ./shared/config.js ./sender/config.js
+	cp ./shared/socket.io.js ./sender/socket.io.js
+	cp ./shared/jquery-2.0.3.min.js ./sender/jquery-2.0.3.min.js
+	cp ./shared/config.js ./receiver/config.js
+	cp ./shared/jquery-2.0.3.min.js ./receiver/jquery-2.0.3.min.js
+
 ### broker/server.js
 
 The first thing you'll need to do is start the broker. You can do this manually by typing:
