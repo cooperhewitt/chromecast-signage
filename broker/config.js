@@ -1,4 +1,4 @@
-var config = {}
+var config = {};
 
 config.screens = {"museum hours": "http://collection.cooperhewitt.org/about/",
                   "upcoming events": "http://www.aaronland.info/",
