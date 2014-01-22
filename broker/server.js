@@ -9,13 +9,10 @@
 // can do some introspection.
 
 // A list of possible screens to send and their named labels
+var config = require("./config.js");
 
 var screens_get_screens = function() {
-    return {
-        "museum hours": "http://collection.cooperhewitt.org/about/",
-        "upcoming events": "http://www.aaronland.info/",
-        "subway schedule": "http://news.bbc.co.uk",
-    };
+    return config.screens;
 };
 
 // What screen is currently being shown on a given display?
