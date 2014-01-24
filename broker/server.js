@@ -82,7 +82,7 @@ io.sockets.on('connection', function (socket) {
             var msg_id = data['message_id'];
 
             var callback = function(display) {
-                broadcast('sender', {'action': 'message', 'message': msg, 'message_id': msg_id});
+                broadcast('sender', {'action': 'message', 'message': msg, 'message_id': msg_id, 'receiver': display});
                 broadcast('displays', {'action': 'sent_message', 'display': display, 'message_id': msg_id});
             };
 
@@ -100,7 +100,7 @@ io.sockets.on('connection', function (socket) {
 
             var callback = function(display) {
 
-                broadcast('sender', {'action': 'url', 'message': url, 'message_id': msg_id});
+                broadcast('sender', {'action': 'url', 'message': url, 'message_id': msg_id, 'receiver': display});
                 broadcast('displays', {'action': 'sent_screen', 'display': display, 'message_id': msg_id});
             };
 
