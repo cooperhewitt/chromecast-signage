@@ -242,6 +242,13 @@ this:
 
 	$> dscacheutil -flushcache
 
+Contributors
+--
+
+* [@straup](https://github.com/straup)
+* [@stumm](https://github.com/stumm)
+* [@hugovk](https://github.com/hugovk)
+ 
 See also
 --
 
