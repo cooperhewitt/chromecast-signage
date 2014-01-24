@@ -46,12 +46,6 @@ function sender_init(){
 
 }
 
-var msg_rcvd_callback=function(data){
-    console.log("sender callback");
-    console.log(data);
-    send_message_to_cc(data.cmd);
-};
-
 if (window.cast && window.cast.isAvailable){
     // Cast is known to be available
     console.log("cast api available");
